@@ -1,0 +1,11 @@
+{
+  "name": "dev-challenges",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "deploy-storybook": "storybook-to-ghpages"
+  },
+  "devDependencies": {
+    "@storybook/storybook-deployer": "^2.8.7"
+  }
+}
