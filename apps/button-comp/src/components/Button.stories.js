@@ -1,10 +1,10 @@
 import React from 'react';
 import '../index.css';
-import { Button } from '../components/Button';
+import { Button } from './Button';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  title: 'Example/Button',
+  title: 'Design System/Button',
   component: Button,
   argTypes: {
     variant: { 
