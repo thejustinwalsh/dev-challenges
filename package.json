@@ -2,6 +2,9 @@
   "name": "dev-challenges",
   "private": true,
   "version": "1.0.0",
+  "workspaces": [
+    "./apps/*"
+  ],
   "scripts": {
     "deploy-storybook": "storybook-to-ghpages"
   },
