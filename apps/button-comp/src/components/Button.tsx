@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React from 'react';
 import styled, { css } from "styled-components";
 import Icon from '@material-ui/core/Icon';
 
@@ -15,22 +15,16 @@ type ButtonProps = {
 
 const colors = {
   normal: {
-    default: 'rgba(224, 224, 224, 1)',
-    primary: 'rgba(41, 98, 255, 1)',
-    secondary: 'rgba(69, 90, 100, 1)',
-    danger: 'rgba(211, 47, 47, 1)',
+    default: (a: number = 1) => `rgba(224, 224, 224, ${a})`,
+    primary: (a: number = 1) => `rgba(41, 98, 255, ${a})`,
+    secondary: (a: number = 1) => `rgba(69, 90, 100, ${a})`,
+    danger: (a: number = 1) => `rgba(211, 47, 47, ${a})`,
   },
   hover: {
-    default: 'rgba(174, 174, 174, 1)',
-    primary: 'rgba(0, 57, 203, 1)',
-    secondary: 'rgba(28, 49, 58, 1)',
-    danger: 'rgba(154, 0, 7, 1)',
-  },
-  outline: {
-    default: 'rgba(174, 174, 174, 0.1)',
-    primary: 'rgba(0, 57, 203, 0.1)',
-    secondary: 'rgba(28, 49, 58, 0.1)',
-    danger: 'rgba(154, 0, 7, 0.1)',
+    default: (a: number = 1) => `rgba(174, 174, 174, ${a})`,
+    primary: (a: number = 1) => `rgba(0, 57, 203, ${a})`,
+    secondary: (a: number = 1) => `rgba(28, 49, 58, ${a})`,
+    danger: (a: number = 1) => `rgba(154, 0, 7, ${a})`,
   }
 }
 
@@ -46,12 +40,20 @@ const StyledButton = styled.button<ButtonProps>`
   padding: 8px 16px;
   box-shadow: 0px 2px 3px rgba(51, 51, 51, 0.2);
   border-width: 0px;
-  border-color: ${props => colors.normal[props.color || 'default']};
-  color: ${props => props.color === 'default' ? 'black' : ['outline', 'text'].includes(props.variant) ? colors.normal[props.color || 'default'] : 'white'};
-  background-color: ${props => colors.normal[props.color || 'default']};
+  border-color: ${props => colors.normal[props.color || 'default']()};
+  color: ${props => props.color === 'default' ? 'black' : ['outline', 'text'].includes(props.variant) ? colors.normal[props.color || 'default']() : 'white'};
+  background-color: ${props => colors.normal[props.color || 'default']()};
   &:hover, &:focus {
     &:not([disabled]) {
-      background-color: ${props => colors[['outline', 'text'].includes(props.variant) ? 'outline' : 'hover'][props.color || 'default']};
+      outline: none;
+      cursor: pointer;
+      background-color: ${props => colors.hover[props.color || 'default'](['outline', 'text'].includes(props.variant) ? 0.1 : 1)};
+    }
+  }
+  &:active {
+    &:not([disabled]) {
+      outline: none;
+      background-color: ${props => colors.hover[props.color || 'default'](.5)};
     }
   }
   &:disabled {
