@@ -1,5 +1,6 @@
 {
   "name": "input-comp",
+  "description": "DevChallenges.io Front-End Input Component",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
