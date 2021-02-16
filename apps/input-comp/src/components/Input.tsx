@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled, { css } from "styled-components";
 import Icon from '@material-ui/core/Icon';
 
@@ -15,6 +15,8 @@ type InputProps = Partial<{
   fullWidth: boolean,
   multiline: boolean,
   row: number,
+  onChange(value: string): void,
+  onButtonClick(): void,
 }>;
 
 type StyleProps = {
@@ -126,11 +128,14 @@ const StyledTextArea = styled.textarea<StyleProps>`
 export const Input = ({ label, placeholder, helperText, value, multiline, ...props}: InputProps) => {
   const [inputVal, setInputVal] = useState<string>(value || '');
   
+  const onChange = props.onChange;
+  useEffect(() => onChange?.(inputVal), [onChange, inputVal]);
+  
   const { error, size, fullWidth, startIcon, endIcon, row } = props;
   const style:StyleProps = { error, height: size, fullWidth, startIcon, endIcon, row: row || 1};
 
-  const StartIcon = startIcon ? <Icon className="start-icon">{startIcon}</Icon> : null;
-  const EndIcon = endIcon ? <Icon className="end-icon">{endIcon}</Icon> : null;
+  const StartIcon = startIcon ? <Icon className="start-icon" onClick={() => props.onButtonClick?.()}>{startIcon}</Icon> : null;
+  const EndIcon = endIcon ? <Icon className="end-icon" onClick={() => props.onButtonClick?.()}>{endIcon}</Icon> : null;
   const StyledTextInput = multiline ?
     <StyledTextArea id="input" value={inputVal} placeholder={placeholder} onChange={(e) => setInputVal(e.target.value)} disabled={props.disabled} {...style} /> :
     <StyledInput id="input" type="text" value={inputVal} placeholder={placeholder} onChange={(e) => setInputVal(e.target.value)} disabled={props.disabled} {...style} />;

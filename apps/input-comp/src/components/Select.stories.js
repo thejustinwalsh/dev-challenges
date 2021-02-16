@@ -1,10 +1,10 @@
 import React from 'react';
-import { Input } from './Input';
+import { Select } from './Select';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  title: 'Design System/Input',
-  component: Input,
+  title: 'Design System/Select',
+  component: Select,
   argTypes: {
     label: { control: 'text' },
     placeholder: { control: 'text' },
@@ -22,7 +22,7 @@ export default {
   }
 };
 
-const Template = (args) => <Input {...args} />;
+const Template = (args) => <Select {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
@@ -42,30 +42,6 @@ Disabled.args = {
   disabled: true,
 };
 
-export const HelperText = Template.bind({});
-HelperText.args = {
-  ...Primary.args,
-  helperText: 'Some interesting text',
-};
-
-export const HelperTextError = Template.bind({});
-HelperTextError.args = {
-  ...HelperText.args,
-  error: true,
-};
-
-export const StartIcon = Template.bind({});
-StartIcon.args = {
-  ...Primary.args,
-  startIcon: 'local_phone',
-};
-
-export const EndIcon = Template.bind({});
-  EndIcon.args = {
-  ...Primary.args,
-  endIcon: 'lock',
-};
-
 export const Value = Template.bind({});
   Value.args = {
   ...Primary.args,
@@ -78,15 +54,3 @@ export const SizeSmall = Template.bind({});
   size: 'sm',
 };
 
-export const FullWidth = Template.bind({});
-  FullWidth.args = {
-  ...Primary.args,
-  fullWidth: true,
-};
-
-export const Multiline = Template.bind({});
-  Multiline.args = {
-  ...Primary.args,
-  multiline: true,
-  row: 4,
-};
