@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Input } from "./Input";
 import styled from "styled-components";
 
@@ -22,23 +22,15 @@ const DropDownItem = styled.li`
   cursor: pointer;
 `;
 
-const findOption = (search, options) => {
-  return options.filter((option) => option.title.startsWith(search));
-}
-
 export const Select = (props) => {
   const [isVisible, setIsVisible] = useState(false);
   const [icon, setIcon] = useState("expand_more");
+  const [value, setValue] = useState("");
   const [search, setSearch] = useState("");
   const [options, setOptions] = useState([]);
   const [values, setValues] = useState([]);
   const [selectedId, setSelectedId] = useState(-1);
 
-  const onItemSelect = (index) => {
-    console.log(index, options[index]);
-    setSearch(options[index].title);
-  }
-  
   // Fetch options
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/todos')
@@ -46,34 +38,35 @@ export const Select = (props) => {
       .then(json => setOptions(json));
   }, []);
 
-   // Update Selected Item
-   useEffect(() => {
-    if (selectedId > 0) {
-      const res = options.find((opt) => opt.id === selectedId);
-      console.log(res);
-      setSearch(res.title);
-    }
-  }, [selectedId, options]);
-
   // Render Values
   useEffect(() => {
-    if (search) {
-      const res = findOption(search, options);
+    let searchTerm = search;
+    if (selectedId) {
+      const res = options.find((opt) => opt.id === selectedId);
+      if (res) searchTerm = res.title;
+    }
+
+    console.log(searchTerm);
+    if (searchTerm) {
+      const res = options.filter((option) => option.title.startsWith(search));
       setValues(res.map((opt, index) => <DropDownItem key={opt.id} onClick={() => setSelectedId(opt.id)}>{opt.title}</DropDownItem>));
     }
     else {
       setValues([]);
     }
 
-    setIsVisible(search ? true : false);
-  }, [search, options]);
+    setValue(searchTerm);
+    setIsVisible(searchTerm ? true : false);
+    //setSelectedId(-1);
+  }, [selectedId, search, options]);
 
   // Icon
   useEffect(() => setIcon(isVisible ? "expand_less" : "expand_more"), [isVisible]);
-    
+  
+  const onChangeCallback = useCallback((value) => setSearch(value), []);
   return (
     <SelectWrapper>
-      <Input value={search} onChange={(v) => setSearch(v) } endIcon={icon} fullWidth {...props} />
+      <Input value={value} onChange={onChangeCallback} endIcon={icon} fullWidth autoFocus {...props} />
       <DropDownMenu isVisible={isVisible}>
         {values}
       </DropDownMenu>
