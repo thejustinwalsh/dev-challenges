@@ -49,18 +49,20 @@ export const Select = (props) => {
     console.log(searchTerm);
     if (searchTerm) {
       const res = options.filter((option) => option.title.startsWith(search));
-      setValues(res.map((opt, index) => <DropDownItem key={opt.id} onClick={() => setSelectedId(opt.id)}>{opt.title}</DropDownItem>));
+      setValues(res.map((opt, index) => ({...opt, index})));
     }
     else {
       setValues([]);
     }
 
     setValue(searchTerm);
-    setIsVisible(searchTerm ? true : false);
   }, [selectedId, search, options]);
 
   // Icon
   useEffect(() => setIcon(isVisible ? "expand_less" : "expand_more"), [isVisible]);
+
+  // Dropdown State
+  useEffect(() => setIsVisible(values.length > 0 && values[0].title !== value), [value, values]);
   
   const onChangeCallback = useCallback((value) => {
     setSearch(value);
@@ -68,11 +70,15 @@ export const Select = (props) => {
     setSelectedId(-1);
   }, []);
 
+  const renderValues = values.map((opt) => {
+    return <DropDownItem key={opt.id} onClick={() => setSelectedId(opt.id)}>{opt.title}</DropDownItem>;
+  });
+
   return (
     <SelectWrapper>
       <Input value={value} onChange={onChangeCallback} endIcon={icon} fullWidth autoFocus {...props} />
       <DropDownMenu isVisible={isVisible}>
-        {values}
+        {renderValues}
       </DropDownMenu>
     </SelectWrapper>
   );
