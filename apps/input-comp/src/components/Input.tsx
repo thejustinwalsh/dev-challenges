@@ -105,7 +105,7 @@ const StyledTextArea = styled.textarea<StyleProps>`
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
-  height: ${props => props.row * 37 + 'px'};
+  height: ${props => (props.row ? props.row : 1) * 37 + 'px'};
   min-width: 200px;
   min-height: 56px;
   width: ${props => props.fullWidth ? '100%' : 'inherit'};
@@ -126,7 +126,7 @@ const StyledTextArea = styled.textarea<StyleProps>`
 `;
 
 export const Input = ({ label, placeholder, helperText, value, multiline, onChange, onButtonClick, ...props}: InputProps) => {
-  const [inputVal, setInputVal] = useState<string>(value || '');
+  const [inputVal, setInputVal] = useState<string>(value);
   
   const onChangeCallback = useCallback((value) => onChange?.(value), [onChange]);
   const onButtonClickCallback = useCallback(() => onButtonClick?.(), [onButtonClick]);
