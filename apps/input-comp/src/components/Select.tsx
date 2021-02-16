@@ -57,13 +57,17 @@ export const Select = (props) => {
 
     setValue(searchTerm);
     setIsVisible(searchTerm ? true : false);
-    //setSelectedId(-1);
   }, [selectedId, search, options]);
 
   // Icon
   useEffect(() => setIcon(isVisible ? "expand_less" : "expand_more"), [isVisible]);
   
-  const onChangeCallback = useCallback((value) => setSearch(value), []);
+  const onChangeCallback = useCallback((value) => {
+    setSearch(value);
+    setValue(value);
+    setSelectedId(-1);
+  }, []);
+
   return (
     <SelectWrapper>
       <Input value={value} onChange={onChangeCallback} endIcon={icon} fullWidth autoFocus {...props} />

@@ -131,6 +131,7 @@ export const Input = ({ label, placeholder, helperText, value, multiline, onChan
   const onChangeCallback = useCallback((value) => onChange?.(value), [onChange]);
   const onButtonClickCallback = useCallback(() => onButtonClick?.(), [onButtonClick]);
   useEffect(() => onChangeCallback(inputVal), [onChangeCallback, inputVal]);
+  useEffect(() => setInputVal(value), [value]);
 
   const { error, size, fullWidth, startIcon, endIcon, row } = props;
   const style:StyleProps = { error, height: size, fullWidth, startIcon, endIcon, row: row || 1};
