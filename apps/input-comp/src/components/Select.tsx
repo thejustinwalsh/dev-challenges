@@ -38,7 +38,7 @@ export const Select = (props) => {
       .then(json => setOptions(json));
   }, []);
 
-  // Render Values
+  // Collect Values
   useEffect(() => {
     let searchTerm = search;
     if (selectedId) {
@@ -46,7 +46,6 @@ export const Select = (props) => {
       if (res) searchTerm = res.title;
     }
 
-    console.log(searchTerm);
     if (searchTerm) {
       const res = options.filter((option) => option.title.startsWith(search));
       setValues(res.map((opt, index) => ({...opt, index})));
@@ -58,12 +57,13 @@ export const Select = (props) => {
     setValue(searchTerm);
   }, [selectedId, search, options]);
 
-  // Icon
+  // Update Icon
   useEffect(() => setIcon(isVisible ? "expand_less" : "expand_more"), [isVisible]);
 
-  // Dropdown State
+  // Manage Dropdown Visibility
   useEffect(() => setIsVisible(values.length > 0 && values[0].title !== value), [value, values]);
   
+  // Update dependent props
   const onChangeCallback = useCallback((value) => {
     setSearch(value);
     setValue(value);
