@@ -1,3 +1,4 @@
+/** @jsxImportSource @welldone-software/why-did-you-render */
 import React, { useState, useEffect, useCallback } from 'react'
 import { Input } from "./Input";
 import styled from "styled-components";
